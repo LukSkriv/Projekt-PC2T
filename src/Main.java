@@ -20,11 +20,14 @@ public class Main {
     public static List<Film> filmyAnim = new ArrayList<Film>();
     public static List<DuplicitniHerci> herciList = new ArrayList<DuplicitniHerci>();
     public static List<DuplicitniHerci> duplicitniHerciList = new ArrayList<DuplicitniHerci>();
+    public static String[] hranyFilm = new String[6];
+    public static String[] animovanyFilm = new String[7];
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String[] tempHrany = new String[4]; //na uložení dat když je uživatel zadává
         String[] tempAnim = new String[5];
+
         Soubory soubor = new Soubory();
         int vyberAkce;
         boolean run = true;
@@ -434,12 +437,48 @@ public class Main {
                     }
                 case 9://uložení do souboru
                     System.out.println("Zadejte název filmu k uložení: ");
-                    String jmeno = reader.readLine()+".txt";
+                    String jmeno = reader.readLine();
                     Hrany = false;
+                    index = -1;
+                    for(int i = 0; i <= filmyHrane.size()-1;i++)
+                    {//projde nejdřív hrané filmy, potom animované, když nenajde ani tam, skončí
+                        if(jmeno.equals(filmyHrane.get(i).getNazev())) {
+                            Hrany = true;
+                            index = i;
+                        }
+                    }
+                    if(Hrany != true)
+                    {
+                        for(int i = 0; i <= filmyAnim.size()-1;i++)
+                        {
+                            if(jmeno.equals(filmyAnim.get(i).getNazev())) {
+                                index = i;
+                            }
+                        }
+                    }
+                    if(index == -1) {//pokud to nenašlo stejné jméno ve hraných, ani animovaných
+                        System.out.println("Film s tímto jménem neexistuje");
+                        break;
+                    }
+                    if(Hrany)
+                    {
+                        for(int i = 0; i < filmyHrane.size(); i++)
+                        {
+                            if(filmyHrane.get(i).getNazev().equals(jmeno)) {
+                                hranyFilm[0] = jmeno;
+                                hranyFilm[1] = filmyHrane.get(i).getReziser();
+                                hranyFilm[2] = Integer.toString(filmyHrane.get(i).getRok());
+                                hranyFilm[3] = filmyHrane.get(i).getHerci();
+                                hranyFilm[4] = filmyHrane.get(i).getHodnoceniCisla();
+                                hranyFilm[5] = filmyHrane.get(i).getHodnoceniSlova();
+                            }
+                        }
+                        soubor.ulozFilm(jmeno+(".txt"), hranyFilm);
+                    }
+                    break;
 
                 case 10: //načtení ze souboru
                     System.out.println("Chcete načíst hraný film(1), nebo animovaný(2)?");
-                    System.out.println();
                     int volbaAkce = sc.nextInt();
                     System.out.println("Zadejte název souboru k načtení: ");
                     jmeno = reader.readLine();
@@ -448,10 +487,12 @@ public class Main {
                         Hrany = true;
                     if(Hrany)
                     {
-                        soubor.nactiFilm(jmeno, tempHrany);
+                        hranyFilm = soubor.nactiFilm(jmeno);
 
+                        Film film = new Film(hranyFilm[0],hranyFilm[1],Integer.parseInt(hranyFilm[2]),hranyFilm[3],hranyFilm[4],hranyFilm[5]);
+                        filmyHrane.add(film);
 
-                        String[] herciTohoFilmu = tempHrany[3].split(", ", -1);
+                        String[] herciTohoFilmu = hranyFilm[3].split(", ", -1);
                         int idx = filmyHrane.size()-1;
                         int delkaListu = herciList.size();
                         int delkaDuplicit = duplicitniHerciList.size();
@@ -493,6 +534,10 @@ public class Main {
                     {
                         //animák
                     }
+                    break;
+                case 11:
+                    run = false;
+                    break;
             }
         }
     }

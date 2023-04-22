@@ -23,39 +23,19 @@ public class Soubory {
         return true;
     }
 
-    public boolean nactiFilm(String jmenoSouboru, String[] film) {
+    public String[] nactiFilm(String jmenoSouboru) {
         FileReader fr=null;
         BufferedReader in=null;
         try {
             fr = new FileReader(jmenoSouboru);
             in = new BufferedReader(fr);
             String radek=in.readLine();
-            film = radek.split(";");
+            String[] vysledek = radek.split(";",-1);
+            return vysledek;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        catch (IOException e) {
-            System.out.println("Soubor  nelze otevřít");
-            return false;
-        }
-        catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
-            System.out.println("Chyba integrity dat v souboru");
-            return false;
-        }
-        finally
-        {
-            try
-            {	if (in!=null)
-            {
-                in.close();
-                fr.close();
-            }
-            }
-            catch (IOException e) {
-                System.out.println("Soubor  nelze zavrit");
-                return false;
-            }
-        }
-
-        return true;
     }
 }
