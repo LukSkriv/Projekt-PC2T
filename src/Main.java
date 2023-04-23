@@ -17,9 +17,11 @@ public class Main {
         return cislo;
     }
     public static List<Film> filmyHrane = new ArrayList<Film>();
-    public static List<Film> filmyAnim = new ArrayList<Film>();
+    public static List<Animak> filmyAnim = new ArrayList<Animak>();
     public static List<DuplicitniHerci> herciList = new ArrayList<DuplicitniHerci>();
     public static List<DuplicitniHerci> duplicitniHerciList = new ArrayList<DuplicitniHerci>();
+    public static List<DuplicitniHerci> animatoriList = new ArrayList<DuplicitniHerci>();
+    public static List<DuplicitniHerci> duplicitniAnimatoriList = new ArrayList<DuplicitniHerci>();
     public static String[] hranyFilm = new String[6];
     public static String[] animovanyFilm = new String[7];
     public static void main(String[] args) throws IOException {
@@ -27,6 +29,8 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String[] tempHrany = new String[4]; //na uložení dat když je uživatel zadává
         String[] tempAnim = new String[5];
+        Connect conn = new Connect();
+        conn.connect();
 
         Soubory soubor = new Soubory();
         int vyberAkce;
@@ -34,6 +38,12 @@ public class Main {
         DuplicitniHerci párek = new DuplicitniHerci("Antonín Dvořák");
         herciList.add(párek);
         duplicitniHerciList.add(párek);
+        animatoriList.add(párek);
+        duplicitniAnimatoriList.add(párek);
+
+        conn.selectAllHrane(hranyFilm, filmyHrane);
+        conn.selectAllAnim(animovanyFilm, filmyAnim);
+
         while (run) {
             System.out.println("Možné akce:");
             System.out.println("1 .. Přidání nového filmu");
@@ -46,7 +56,7 @@ public class Main {
             System.out.println("8 .. Výpis filmů podle herce/animátora");
             System.out.println("9 .. Uložení daného filmu do souboru");
             System.out.println("10 .. Načtení filmu ze souboru");
-            System.out.println("11 .. ukonceni aplikace");
+            System.out.println("11 .. Ukončení aplikace");
             vyberAkce = pouzeCelaCisla(sc);
             switch (vyberAkce) {
                 case 1: // přidání filmu
@@ -108,7 +118,57 @@ public class Main {
                     }
                     else
                     {
-                        //napsat pridani animaku
+                        System.out.println("Zadejte");
+                        System.out.println("Název:");
+                        tempAnim[0] = reader.readLine();
+                        System.out.println("Režisér:");
+                        tempAnim[1] = reader.readLine();
+                        System.out.println("Rok vydání:");
+                        tempAnim[2] = reader.readLine();
+                        System.out.println("Animátoři (oddělení čárkou):");
+                        tempAnim[3] = reader.readLine();
+                        System.out.println("Doporučený věk diváka:");
+                        tempAnim[4] = reader.readLine();
+                        Animak film = new Animak(tempAnim[0],tempAnim[1],Integer.parseInt(tempAnim[2]),tempAnim[3],"0","", Integer.parseInt(tempAnim[4]));
+                        filmyAnim.add(film);
+
+                        String[] animatoriTohoFilmu = tempAnim[3].split(", ", -1);
+                        int idx = filmyAnim.size()-1;
+                        int delkaListu = animatoriList.size();
+                        int delkaDuplicit = duplicitniAnimatoriList.size();
+                        boolean existuje = false;
+                        boolean existujeVubec = false;
+                        for(int j = 0; j < animatoriTohoFilmu.length; j++)
+                        {
+                            existuje = false;
+                            existujeVubec = false;
+                            for (int i = 0; i < delkaListu; i++)
+                            {
+                                if(animatoriList.get(i).getJmeno().equals(animatoriTohoFilmu[j])) {//pokud se už herec nachází v seznamu herců, přidá se do seznamu duplicitních
+                                    for(int k = 0; k<delkaDuplicit;k++)
+                                    {
+                                        if(duplicitniAnimatoriList.get(k).getJmeno().equals(animatoriTohoFilmu[j]))
+                                        {
+                                            duplicitniAnimatoriList.get(k).setIndexy(" " + Integer.toString(idx));
+                                            existuje = true;
+                                            existujeVubec = true;
+                                        }
+                                    }
+                                    if(!existuje)
+                                    {
+                                        duplicitniAnimatoriList.add(animatoriList.get(i));
+                                        duplicitniAnimatoriList.get(duplicitniAnimatoriList.size() - 1).setIndexy(" " + Integer.toString(idx));
+                                        existuje = false;
+                                        existujeVubec = true;
+                                    }
+                                }
+                            }
+                            if(!existujeVubec) {
+                                DuplicitniHerci fachman = new DuplicitniHerci(animatoriTohoFilmu[j]);
+                                fachman.setIndexy(" " + Integer.toString(idx));
+                                animatoriList.add(fachman);
+                            }
+                        }
                     }
                     break;
                 case 2: //upravení filmu
@@ -146,34 +206,36 @@ public class Main {
                                     + " " + Integer.toString(filmyHrane.get(index).getRok()) + " " + filmyHrane.get(index).getHerci());
                             System.out.println("Zadejte");
                             System.out.println("Nový název: ");
-                            filmyHrane.get(index).setNazev(sc.next());
+                            filmyHrane.get(index).setNazev(reader.readLine());
                             System.out.println("Nového režiséra: ");
-                            filmyHrane.get(index).setReziser(sc.next());
+                            filmyHrane.get(index).setReziser(reader.readLine());
                             System.out.println("Nový rok vydání: ");
                             filmyHrane.get(index).setRok(pouzeCelaCisla(sc));
                             System.out.println("Nový seznam herců (odděleni čárkou): ");
-                            filmyHrane.get(index).setHerci(sc.next());
+                            filmyHrane.get(index).setHerci(reader.readLine());
                             break;
                         }
                         else
                         {//pro animované filmy
                             System.out.println("Vybraný film: " + filmyAnim.get(index).getNazev() + " " + filmyAnim.get(index).getReziser()
-                                    + " " + Integer.toString(filmyAnim.get(index).getRok()) + " " + filmyAnim.get(index).getHerci());
+                                    + " " + Integer.toString(filmyAnim.get(index).getRok()) + " " + filmyAnim.get(index).getHerci() + " " +filmyAnim.get(index).getVekDivaka());
                             System.out.println("Zadejte");
                             System.out.println("Nový název: ");
-                            filmyAnim.get(index).setNazev(sc.next());
+                            filmyAnim.get(index).setNazev(reader.readLine());
                             System.out.println("Nového režiséra: ");
-                            filmyAnim.get(index).setReziser(sc.next());
+                            filmyAnim.get(index).setReziser(reader.readLine());
                             System.out.println("Nový rok vydání: ");
                             filmyAnim.get(index).setRok(pouzeCelaCisla(sc));
-                            System.out.println("Nový seznam herců (odděleni čárkou): ");
-                            filmyAnim.get(index).setHerci(sc.next());
+                            System.out.println("Nový seznam animátorů (odděleni čárkou): ");
+                            filmyAnim.get(index).setHerci(reader.readLine());
+                            System.out.println("Nový doporučený věk diváka: ");
+                            filmyAnim.get(index).setVekDivaka(pouzeCelaCisla(sc));
                             break;
                         }
                     }
                 case 3: //smazání filmu
                     System.out.println("Zadejte název filmu, který chcete smazat: ");
-                    jmenoFilmu = sc.next();
+                    jmenoFilmu = reader.readLine();
                     Hrany = false;
                     index = -1;
                     for(int i = 0; i <= filmyHrane.size()-1;i++)
@@ -187,7 +249,7 @@ public class Main {
                     {
                         for(int i = 0; i <= filmyAnim.size()-1;i++)
                         {
-                            if(jmenoFilmu.equals(filmyHrane.get(i).getNazev())) {
+                            if(jmenoFilmu.equals(filmyAnim.get(i).getNazev())) {
                                 index = i;
                             }
                         }
@@ -235,6 +297,37 @@ public class Main {
                     }
                     else
                     {
+                        String[] herciTohoFilmu = filmyAnim.get(index).getHerci().split(", ", -1);
+                        for(int i = 0; i < animatoriList.size(); i++)
+                        {
+                            for(int j = 0; j < herciTohoFilmu.length; j++) {
+                                if (animatoriList.get(i).getJmeno().equals(herciTohoFilmu[j]))
+                                {
+                                    String[] indexyRetezec = animatoriList.get(i).getIndexy().split(" ", -1);
+                                    int[] jednotliveIndexy = new int[indexyRetezec.length];
+                                    for(int l = 0; l < indexyRetezec.length; l++)
+                                        jednotliveIndexy[l] = -Integer.parseInt(indexyRetezec[l]);
+                                    for(int k = 0; k < jednotliveIndexy.length; k++)
+                                    {
+                                        if(jednotliveIndexy[k] == index)
+                                        {
+                                            jednotliveIndexy[k] = -1;
+                                        } else if (jednotliveIndexy[k] > index) {
+                                            jednotliveIndexy[k]--;
+                                        }
+                                    }
+                                    animatoriList.get(i).resetIndexy();
+                                    for(int o = 0; o < jednotliveIndexy.length; o++)
+                                    {
+                                        if(jednotliveIndexy[o] != -1)
+                                        {
+                                            animatoriList.get(i).setIndexy(Integer.toString(-jednotliveIndexy[o]));
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
                         filmyAnim.remove(index);
                     }
                     break;
@@ -254,7 +347,7 @@ public class Main {
                     {
                         for(int i = 0; i <= filmyAnim.size()-1;i++)
                         {
-                            if(jmenoFilmu.equals(filmyHrane.get(i).getNazev())) {
+                            if(jmenoFilmu.equals(filmyAnim.get(i).getNazev())) {
                                 index = i;
                             }
                         }
@@ -267,7 +360,7 @@ public class Main {
 
                     if(Hrany) {
                         System.out.println("Zadejte hodnocení od 1-5: ");
-                        int hodnoceni = sc.nextInt();
+                        int hodnoceni = pouzeCelaCisla(sc);
                         if (hodnoceni >= 1 && hodnoceni <= 5)
                         {
                             filmyHrane.get(index).setHodnoceniCisla(" "+Integer.toString(hodnoceni));
@@ -281,7 +374,7 @@ public class Main {
                     else
                     {
                         System.out.println("Zadejte hodnocení od 1-10: ");
-                        int hodnoceni = sc.nextInt();
+                        int hodnoceni = pouzeCelaCisla(sc);
                         if (hodnoceni >= 1 && hodnoceni <= 10)
                         {
                             filmyAnim.get(index).setHodnoceniCisla(" " + Integer.toString(hodnoceni));
@@ -318,12 +411,12 @@ public class Main {
                     for(int i = 0; i <= filmyAnim.size()-1;i++)
                     {
                         System.out.println(filmyAnim.get(i).getNazev()+" "+filmyAnim.get(i).getReziser()+" "
-                                +Integer.toString(filmyAnim.get(i).getRok())+" "+filmyAnim.get(i).getHerci()+" "+"doporučený věk: ");
+                                +Integer.toString(filmyAnim.get(i).getRok())+" "+filmyAnim.get(i).getHerci()+" "+"doporučený věk: " + filmyAnim.get(i).getVekDivaka());
                     }
                     break;
                 case 6: //vyhledání filmu
                     System.out.println("Zadejte název filmu, který chcete najít: ");
-                    jmenoFilmu = sc.next();
+                    jmenoFilmu = reader.readLine();
                     Hrany = false;
                     index = -1;
                     for(int i = 0; i <= filmyHrane.size()-1;i++)
@@ -337,7 +430,7 @@ public class Main {
                     {
                         for(int i = 0; i <= filmyAnim.size()-1;i++)
                         {
-                            if(jmenoFilmu.equals(filmyHrane.get(i).getNazev())) {
+                            if(jmenoFilmu.equals(filmyAnim.get(i).getNazev())) {
                                 index = i;
                             }
                         }
@@ -406,11 +499,24 @@ public class Main {
                         }
                         System.out.println();
                     }
+                    for(int i = 0; i < duplicitniAnimatoriList.size(); i++)
+                    {
+                        System.out.println(duplicitniAnimatoriList.get(i).getJmeno()+": ");
+                        String[] indexyRetezec = animatoriList.get(i).getIndexy().split(" ", -1);
+                        int[] jednotliveIndexy = new int[indexyRetezec.length];
+                        for(int l = 0; l < indexyRetezec.length; l++)
+                            jednotliveIndexy[l] = Integer.parseInt(indexyRetezec[l]);
+                        for(int j = 0; j < jednotliveIndexy.length; j++)
+                        {
+                            System.out.println(filmyAnim.get(jednotliveIndexy[j]).getNazev());
+                        }
+                        System.out.println();
+                    }
                     break;
                 case 8: //výpis filmů podle herce
-                    System.out.println("Hledáte herce(0), nebo animátora(1)?");
+                    System.out.println("Hledáte herce(1), nebo animátora(2)?");
                     System.out.println();
-                    if(sc.nextInt() == 0)
+                    if(sc.nextInt() == 1)
                     {
                         System.out.println("Zadejte jméno hledaného herce: ");
                         System.out.println();
@@ -433,7 +539,24 @@ public class Main {
                     }
                     else
                     {
-                        //animák
+                        System.out.println("Zadejte jméno hledaného animátora: ");
+                        System.out.println();
+                        String jmeno = reader.readLine();
+                        for(int i = 0; i < animatoriList.size(); i++)
+                        {
+                            if(animatoriList.get(i).getJmeno().equals(jmeno))
+                            {
+                                String[] indexyRetezec = animatoriList.get(i).getIndexy().split(" ", -1);
+                                int[] jednotliveIndexy = new int[indexyRetezec.length];
+                                for(int l = 0; l < indexyRetezec.length; l++)
+                                    jednotliveIndexy[l] = Integer.parseInt(indexyRetezec[l]);
+                                for(int j = 0; j < jednotliveIndexy.length; j++)
+                                {
+                                    System.out.println(filmyAnim.get(jednotliveIndexy[j]).getNazev());
+                                }
+                                break;
+                            }
+                        }
                     }
                 case 9://uložení do souboru
                     System.out.println("Zadejte název filmu k uložení: ");
@@ -474,6 +597,22 @@ public class Main {
                             }
                         }
                         soubor.ulozFilm(jmeno+(".txt"), hranyFilm);
+                    }
+                    else
+                    {
+                        for(int i = 0; i < filmyAnim.size(); i++)
+                        {
+                            if(filmyAnim.get(i).getNazev().equals(jmeno)) {
+                                animovanyFilm[0] = jmeno;
+                                animovanyFilm[1] = filmyAnim.get(i).getReziser();
+                                animovanyFilm[2] = Integer.toString(filmyAnim.get(i).getRok());
+                                animovanyFilm[3] = filmyAnim.get(i).getHerci();
+                                animovanyFilm[4] = filmyAnim.get(i).getHodnoceniCisla();
+                                animovanyFilm[5] = filmyAnim.get(i).getHodnoceniSlova();
+                                animovanyFilm[6] = Integer.toString(filmyAnim.get(i).getVekDivaka());
+                            }
+                        }
+                        soubor.ulozFilm(jmeno+(".txt"), animovanyFilm);
                     }
                     break;
 
@@ -532,10 +671,76 @@ public class Main {
                     }
                     else
                     {
-                        //animák
+                        animovanyFilm = soubor.nactiFilm(jmeno);
+
+                        Animak film = new Animak(animovanyFilm[0],animovanyFilm[1],Integer.parseInt(animovanyFilm[2]),animovanyFilm[3],animovanyFilm[4],animovanyFilm[5], Integer.parseInt(animovanyFilm[6]));
+                        filmyAnim.add(film);
+
+                        String[] herciTohoFilmu = animovanyFilm[3].split(", ", -1);
+                        int idx = filmyAnim.size()-1;
+                        int delkaListu = animatoriList.size();
+                        int delkaDuplicit = duplicitniAnimatoriList.size();
+                        boolean existuje = false;
+                        boolean existujeVubec = false;
+                        for(int j = 0; j < herciTohoFilmu.length; j++)
+                        {
+                            existuje = false;
+                            existujeVubec = false;
+                            for (int i = 0; i < delkaListu; i++)
+                            {
+                                if(animatoriList.get(i).getJmeno().equals(herciTohoFilmu[j])) {//pokud se už herec nachází v seznamu herců, přidá se do seznamu duplicitních
+                                    for(int k = 0; k<delkaDuplicit;k++)
+                                    {
+                                        if(duplicitniAnimatoriList.get(k).getJmeno().equals(herciTohoFilmu[j]))
+                                        {
+                                            duplicitniAnimatoriList.get(k).setIndexy(" " + Integer.toString(idx));
+                                            existuje = true;
+                                            existujeVubec = true;
+                                        }
+                                    }
+                                    if(!existuje)
+                                    {
+                                        duplicitniAnimatoriList.add(animatoriList.get(i));
+                                        duplicitniAnimatoriList.get(duplicitniAnimatoriList.size() - 1).setIndexy(" " + Integer.toString(idx));
+                                        existuje = false;
+                                        existujeVubec = true;
+                                    }
+                                }
+                            }
+                            if(!existujeVubec) {
+                                DuplicitniHerci fachman = new DuplicitniHerci(herciTohoFilmu[j]);
+                                fachman.setIndexy(" " + Integer.toString(idx));
+                                animatoriList.add(fachman);
+                            }
+                        }
                     }
                     break;
                 case 11:
+                    conn.dropAll();
+                    conn.createTableHrane();
+                    conn.createTableAnimovane();
+                    for(int i = 0; i < filmyHrane.size(); i++)
+                    {
+                        hranyFilm[0] = filmyHrane.get(i).getNazev();
+                        hranyFilm[1] = filmyHrane.get(i).getReziser();
+                        hranyFilm[2] = Integer.toString(filmyHrane.get(i).getRok());
+                        hranyFilm[3] = filmyHrane.get(i).getHerci();
+                        hranyFilm[4] = filmyHrane.get(i).getHodnoceniCisla();
+                        hranyFilm[5] = filmyHrane.get(i).getHodnoceniSlova();
+                        conn.insertHrany(hranyFilm[0], hranyFilm[1], Integer.parseInt(hranyFilm[2]), hranyFilm[3], hranyFilm[4], hranyFilm[5]);
+                    }
+                    for(int i = 0; i < filmyAnim.size(); i++)
+                    {
+                        animovanyFilm[0] = filmyAnim.get(i).getNazev();
+                        animovanyFilm[1] = filmyAnim.get(i).getReziser();
+                        animovanyFilm[2] = Integer.toString(filmyAnim.get(i).getRok());
+                        animovanyFilm[3] = filmyAnim.get(i).getHerci();
+                        animovanyFilm[4] = filmyAnim.get(i).getHodnoceniCisla();
+                        animovanyFilm[5] = filmyAnim.get(i).getHodnoceniSlova();
+                        animovanyFilm[6] = Integer.toString(filmyAnim.get(i).getVekDivaka());
+                        conn.insertAnim(animovanyFilm[0], animovanyFilm[1], Integer.parseInt(animovanyFilm[2]), animovanyFilm[3], animovanyFilm[4], animovanyFilm[5], Integer.parseInt(animovanyFilm[2]));
+                    }
+                    conn.disconnect();
                     run = false;
                     break;
             }
