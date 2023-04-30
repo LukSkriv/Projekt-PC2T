@@ -27,7 +27,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String[] tempHrany = new String[4]; //na uložení dat když je uživatel zadává
+        String[] tempHrany = new String[4];
         String[] tempAnim = new String[5];
         Connect conn = new Connect();
         conn.connect();
@@ -59,7 +59,7 @@ public class Main {
             System.out.println("11 .. Ukončení aplikace");
             vyberAkce = pouzeCelaCisla(sc);
             switch (vyberAkce) {
-                case 1: // přidání filmu
+                case 1:
                     System.out.println("1 .. Hraný film");
                     System.out.println("2 .. Animovaný film");
                     vyberAkce = pouzeCelaCisla(sc);
@@ -90,7 +90,7 @@ public class Main {
                             existujeVubec = false;
                             for (int i = 0; i < delkaListu; i++)
                             {
-                                if(herciList.get(i).getJmeno().equals(herciTohoFilmu[j])) {//pokud se už herec nachází v seznamu herců, přidá se do seznamu duplicitních
+                                if(herciList.get(i).getJmeno().equals(herciTohoFilmu[j])) {
                                     for(int k = 0; k<delkaDuplicit;k++)
                                     {
                                         if(duplicitniHerciList.get(k).getJmeno().equals(herciTohoFilmu[j]))
@@ -144,7 +144,7 @@ public class Main {
                             existujeVubec = false;
                             for (int i = 0; i < delkaListu; i++)
                             {
-                                if(animatoriList.get(i).getJmeno().equals(animatoriTohoFilmu[j])) {//pokud se už herec nachází v seznamu herců, přidá se do seznamu duplicitních
+                                if(animatoriList.get(i).getJmeno().equals(animatoriTohoFilmu[j])) {
                                     for(int k = 0; k<delkaDuplicit;k++)
                                     {
                                         if(duplicitniAnimatoriList.get(k).getJmeno().equals(animatoriTohoFilmu[j]))
@@ -171,13 +171,13 @@ public class Main {
                         }
                     }
                     break;
-                case 2: //upravení filmu
+                case 2:
                     System.out.println("Zadejte název filmu, který chcete upravit: ");
                     String jmenoFilmu = sc.next();
                     boolean Hrany = false;
                     int index = -1;
                     for(int i = 0; i <= filmyHrane.size()-1;i++)
-                    {//projde nejdřív hrané filmy, potom animované, když nenajde ani tam, skončí
+                    {
                         if(jmenoFilmu.equals(filmyHrane.get(i).getNazev())) {
                             Hrany = true;
                             index = i;
@@ -192,7 +192,7 @@ public class Main {
                             }
                         }
                     }
-                    if(index == -1) {//pokud to nenašlo stejné jméno ve hraných, ani animovaných
+                    if(index == -1) {
                         System.out.println("Film s tímto jménem neexistuje");
                         break;
                     }
@@ -201,7 +201,7 @@ public class Main {
                     else
                     {
                         if(Hrany)
-                        {//pro hrané filmy
+                        {
                             System.out.println("Vybraný film: " + filmyHrane.get(index).getNazev() + " " + filmyHrane.get(index).getReziser()
                                     + " " + Integer.toString(filmyHrane.get(index).getRok()) + " " + filmyHrane.get(index).getHerci());
                             System.out.println("Zadejte");
@@ -216,7 +216,7 @@ public class Main {
                             break;
                         }
                         else
-                        {//pro animované filmy
+                        {
                             System.out.println("Vybraný film: " + filmyAnim.get(index).getNazev() + " " + filmyAnim.get(index).getReziser()
                                     + " " + Integer.toString(filmyAnim.get(index).getRok()) + " " + filmyAnim.get(index).getHerci() + " " +filmyAnim.get(index).getVekDivaka());
                             System.out.println("Zadejte");
@@ -233,7 +233,7 @@ public class Main {
                             break;
                         }
                     }
-                case 3: //smazání filmu
+                case 3:
                     System.out.println("Zadejte název filmu, který chcete smazat: ");
                     jmenoFilmu = reader.readLine();
                     Hrany = false;
@@ -254,7 +254,7 @@ public class Main {
                             }
                         }
                     }
-                    if(index == -1) {//pokud to nenašlo stejné jméno ve hraných, ani animovaných
+                    if(index == -1) {
                         System.out.println("Film s tímto jménem neexistuje");
                         break;
                     }
@@ -331,7 +331,7 @@ public class Main {
                         filmyAnim.remove(index);
                     }
                     break;
-                case 4: //přidání hodnocení filmu
+                case 4:
                     System.out.println("Zadejte název filmu, kterému chcete přidat hodnocení: ");
                     jmenoFilmu = sc.next();
                     Hrany = false;
@@ -352,7 +352,7 @@ public class Main {
                             }
                         }
                     }
-                    if(index == -1) {//pokud to nenašlo stejné jméno ve hraných, ani animovaných
+                    if(index == -1) {
                         System.out.println("Film s tímto jménem neexistuje");
                         break;
                     }
@@ -401,7 +401,7 @@ public class Main {
                     }
                     break;
 
-                case 5: //výpis filmů
+                case 5:
                     System.out.println("Seznam filmů v databázi (název, režisér, rok vydání, herci): ");
                     for(int i = 0; i <= filmyHrane.size()-1;i++)
                     {
@@ -414,7 +414,7 @@ public class Main {
                                 +Integer.toString(filmyAnim.get(i).getRok())+" "+filmyAnim.get(i).getHerci()+" "+"doporučený věk: " + filmyAnim.get(i).getVekDivaka());
                     }
                     break;
-                case 6: //vyhledání filmu
+                case 6:
                     System.out.println("Zadejte název filmu, který chcete najít: ");
                     jmenoFilmu = reader.readLine();
                     Hrany = false;
@@ -435,13 +435,13 @@ public class Main {
                             }
                         }
                     }
-                    if(index == -1) {//pokud to nenašlo stejné jméno ve hraných, ani animovaných
+                    if(index == -1) {
                         System.out.println("Film s tímto jménem neexistuje");
                         break;
                     }
 
 
-                    //seřazení hodnocení
+
                     if(Hrany)
                     {
                         String Hodnoceni = filmyHrane.get(index).getHodnoceniCisla();
@@ -455,7 +455,7 @@ public class Main {
                         for(int i = hodnoceni.length-1; i > 0; i--)
                             vyslednaHodnoceni += Integer.toString(hodnoceni[i]) + " ";
 
-                        //výpis informací o filmu
+
                         System.out.println("Název: " + filmyHrane.get(index).getNazev());
                         System.out.println("Režisér: " + filmyHrane.get(index).getReziser());
                         System.out.println("Rok vydání: " + filmyHrane.get(index).getRok());
@@ -475,7 +475,7 @@ public class Main {
                         for(int i = hodnoceni.length-1; i > 0; i--)
                             vyslednaHodnoceni += Integer.toString(hodnoceni[i]) + " ";
 
-                        //výpis informací o filmu
+
                         System.out.println("Název: " + filmyAnim.get(index).getNazev());
                         System.out.println("Režisér: " + filmyAnim.get(index).getReziser());
                         System.out.println("Rok vydání: " + filmyAnim.get(index).getRok());
@@ -484,7 +484,7 @@ public class Main {
                         System.out.println(filmyAnim.get(index).getHodnoceniSlova());
                     }
                     break;
-                case 7: //výpis herců/animátorů, co se vyskytují ve více filmech
+                case 7:
                     System.out.println("Všichni herci/animátoři, kteří se podíleli na dvou a více filmech: ");
                     for(int i = 0; i < duplicitniHerciList.size(); i++)
                     {
@@ -513,7 +513,7 @@ public class Main {
                         System.out.println();
                     }
                     break;
-                case 8: //výpis filmů podle herce
+                case 8:
                     System.out.println("Hledáte herce(1), nebo animátora(2)?");
                     System.out.println();
                     if(sc.nextInt() == 1)
@@ -558,13 +558,13 @@ public class Main {
                             }
                         }
                     }
-                case 9://uložení do souboru
+                case 9:
                     System.out.println("Zadejte název filmu k uložení: ");
                     String jmeno = reader.readLine();
                     Hrany = false;
                     index = -1;
                     for(int i = 0; i <= filmyHrane.size()-1;i++)
-                    {//projde nejdřív hrané filmy, potom animované, když nenajde ani tam, skončí
+                    {
                         if(jmeno.equals(filmyHrane.get(i).getNazev())) {
                             Hrany = true;
                             index = i;
@@ -579,7 +579,7 @@ public class Main {
                             }
                         }
                     }
-                    if(index == -1) {//pokud to nenašlo stejné jméno ve hraných, ani animovaných
+                    if(index == -1) {
                         System.out.println("Film s tímto jménem neexistuje");
                         break;
                     }
@@ -616,7 +616,7 @@ public class Main {
                     }
                     break;
 
-                case 10: //načtení ze souboru
+                case 10:
                     System.out.println("Chcete načíst hraný film(1), nebo animovaný(2)?");
                     int volbaAkce = sc.nextInt();
                     System.out.println("Zadejte název souboru k načtení: ");
@@ -643,7 +643,7 @@ public class Main {
                             existujeVubec = false;
                             for (int i = 0; i < delkaListu; i++)
                             {
-                                if(herciList.get(i).getJmeno().equals(herciTohoFilmu[j])) {//pokud se už herec nachází v seznamu herců, přidá se do seznamu duplicitních
+                                if(herciList.get(i).getJmeno().equals(herciTohoFilmu[j])) {
                                     for(int k = 0; k<delkaDuplicit;k++)
                                     {
                                         if(duplicitniHerciList.get(k).getJmeno().equals(herciTohoFilmu[j]))
@@ -688,7 +688,7 @@ public class Main {
                             existujeVubec = false;
                             for (int i = 0; i < delkaListu; i++)
                             {
-                                if(animatoriList.get(i).getJmeno().equals(herciTohoFilmu[j])) {//pokud se už herec nachází v seznamu herců, přidá se do seznamu duplicitních
+                                if(animatoriList.get(i).getJmeno().equals(herciTohoFilmu[j])) {
                                     for(int k = 0; k<delkaDuplicit;k++)
                                     {
                                         if(duplicitniAnimatoriList.get(k).getJmeno().equals(herciTohoFilmu[j]))

@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67d52401-aea5-4b19-8141-9e8d28e6b886" name="Changes" comment="Funkční hlavní smyčka programu (snad)">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_41_2_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Animak.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Connect.java" afterDir="false" />
+    <list default="true" id="67d52401-aea5-4b19-8141-9e8d28e6b886" name="Changes" comment="Plnotučná verze celé srandy. Dalo by se to zkrátit, ale to počká, pokud zbyde čas. Teď projekty do jiných předmětů.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeqt.iml" beforeDir="false" afterPath="$PROJECT_DIR$/projeqt.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Film.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Film.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,24 +31,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Lukáš/Downloads/sqlite-jdbc-3.41.2.1.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Lukáš/Downloads/sqlite-jdbc-3.41.2.1.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,7 +60,8 @@
       <workItem from="1682000530756" duration="1464000" />
       <workItem from="1682005467412" duration="13377000" />
       <workItem from="1682095361534" duration="8045000" />
-      <workItem from="1682146607390" duration="43223000" />
+      <workItem from="1682146607390" duration="44649000" />
+      <workItem from="1682585256855" duration="444000" />
     </task>
     <task id="LOCAL-00001" summary="Projekt BPC2T">
       <created>1682174945810</created>
@@ -82,7 +77,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682177657679</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Plnotučná verze celé srandy. Dalo by se to zkrátit, ale to počká, pokud zbyde čas. Teď projekty do jiných předmětů.">
+      <created>1682277990556</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1682277990556</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -102,57 +104,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Projekt BPC2T" />
     <MESSAGE value="Funkční hlavní smyčka programu (snad)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Funkční hlavní smyčka programu (snad)" />
+    <MESSAGE value="Plnotučná verze celé srandy. Dalo by se to zkrátit, ale to počká, pokud zbyde čas. Teď projekty do jiných předmětů." />
+    <option name="LAST_COMMIT_MESSAGE" value="Plnotučná verze celé srandy. Dalo by se to zkrátit, ale to počká, pokud zbyde čas. Teď projekty do jiných předmětů." />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Connect.java</url>
-          <line>120</line>
-          <option name="timeStamp" value="68" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Connect.java</url>
-          <line>121</line>
-          <option name="timeStamp" value="72" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Connect.java</url>
-          <line>122</line>
-          <option name="timeStamp" value="73" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Connect.java</url>
-          <line>123</line>
-          <option name="timeStamp" value="74" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Connect.java</url>
-          <line>132</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Connect.java</url>
-          <line>133</line>
-          <option name="timeStamp" value="79" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Connect.java</url>
-          <line>124</line>
-          <option name="timeStamp" value="80" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Connect.java</url>
-          <line>119</line>
-          <properties class="Connect" method="selectAllAnim">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="DuplicitniHerci" memberName="jmeno" />
